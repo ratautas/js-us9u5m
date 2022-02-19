@@ -259,10 +259,10 @@
               });
           })();
           var E = function () {
-            if (A()) S();
+            if (onAPILoaded()) S();
             else
               var t = setInterval(function () {
-                A() && (S(), clearInterval(t));
+                onAPILoaded() && (S(), clearInterval(t));
               }, 100);
           };
           void 0 === t && E();
@@ -317,7 +317,7 @@
               : (r || "CATEGORY" !== t.type || t.categoryId !== s || t.offset !== u) && h());
         }, 0);
     }
-    function A() {
+    function onAPILoaded() {
       return !!Ecwid && !!Ecwid.OnAPILoaded && !!Ecwid.OnAPILoaded.add;
     }
     function k() {

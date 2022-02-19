@@ -1,5 +1,5 @@
 !(function () {
-  var t,
+  var domContentLoadedHandler,
     e = false,
     o = null,
     n = "static-content",
@@ -122,156 +122,151 @@
   window.ec.storefront = window.ec.storefront || {};
   window.ec.storefront.staticPages = window.ec.storefront.staticPages || {};
   window.ec.storefront.staticPages.switchStaticToDynamic = h;
-  t = function () {
-    if (true === (window.ec.storefront.staticPages.staticStorefrontEnabled || false))
-      if (
-        ((o = ec.storefront.staticPages.staticContainerID),
-        (i = ec.storefront.staticPages.dynamicContainerID),
-        document.querySelector("#" + o))
-      )
-        if (document.querySelector("#" + i)) {
-          if (
-            (-1 !== window.location.hash.indexOf("#!/c/0") && document.querySelector("#" + o).scrollIntoView(true),
-            "ontouchstart" in window && ((e = true), document.body.classList.add("touchable")),
-            !!ec.storefront.staticPages.lazyLoading)
-          ) {
-            if (void 0 === ec.storefront.staticPages.lazyLoading.scriptJsLink)
-              return void console.warn("Storefront lazy loading is enabled, but no scriptJsLink is provided");
-            if (void 0 === ec.storefront.staticPages.lazyLoading.xProductBrowserArguments)
-              return void (
-                console.warn("Storefront lazy loading is enabled, but no xProductBrowser arguments are provided")
-              );
-            b(true);
-            var t = true;
-            function d() {
-              void 0 === t ? console.warn("Unable to fetch script.js outside of lazy loading mode") : (b(false), w(P));
-            }
-            var P = function () {
-              xProductBrowser.apply(this, ec.storefront.staticPages.lazyLoading.xProductBrowserArguments), E();
-            };
-            function b(t) {
-              var n = function (t, e, o) {
-                  e ? t.addEventListener(o, d) : t.removeEventListener(o, d);
-                },
-                i = document.querySelector("#" + o);
-              e
-                ? ["touchstart", "touchend", "touchcancel", "touchmove"].forEach(function (e) {
-                    n(i, t, e);
-                  })
-                : ["mousedown", "mouseup", "mousemove", "contextmenu", "keydown", "keyup"].forEach(function (e) {
-                    n(i, t, e);
-                  });
-            }
-          }
-          var _ = ec.storefront.staticPages.mainCategoryId;
-          _ && (s = _);
-          var L = ec.storefront.staticPages.autoSwitchStaticToDynamicWhenReady;
-          if (
-            ((a = L || c),
-            ec.storefront.staticPages.initialCategoryOffset && (u = ec.storefront.staticPages.initialCategoryOffset),
-            m(),
-            (function () {
-              var t = document.querySelector("#" + o + " ." + n);
-              t && (t.style.opacity = 1);
-            })(),
-            (window.ec.config = window.ec.config || {}),
-            (window.ec.config.navigation_scrolling = "DISABLED"),
-            !g())
-          )
-            return m(), void h();
-          !(function () {
-            function t(t, e) {
-              for (var o = document.querySelectorAll(t), n = 0; n < o.length; n++) e(o[n]);
-            }
-            t("#" + o + " .ec-breadcrumbs a", function (t) {
-              var e = t.getAttribute("categoryId");
-              e !== s && y(t, p("category", { id: e }));
-            });
-            var e = document.querySelector("#" + o + " .grid__sort select");
-            e &&
-              e.addEventListener("change", function (t) {
-                p("category", { id: s, sort: e.value })(t);
-              }),
-              t("#" + o + " .grid__sort .grid-sort__item--filter", function (t) {
-                y(t, function () {
-                  v(function () {
-                    f() || (h(), Ecwid.showProductFilters());
-                  }, 0);
-                });
-              }),
-              t("#" + o + " .grid-category__card a", function (t) {
-                var e = t.getAttribute("data-category-id");
-                y(t, p("category", { id: e }));
-              }),
-              t("#" + o + " .grid-product:not(.grid-product--view-all) a:not(.open-external-url)", function (t) {
-                var e = t.getAttribute("data-product-id");
-                y(t, p("product", { id: e }));
-              }),
-              t(
-                "#" + o + " .grid-product:not(.grid-product--view-all) .grid-product__wrap[data-product-id]",
-                function (t) {
-                  var e = t.getAttribute("data-product-id");
-                  y(t, p("product", { id: e }));
-                }
-              ),
-              t("#" + o + " .grid-product--view-all a", function (t) {
-                var e = t.getAttribute("data-category-id");
-                y(t, p("category", { id: e }));
-              }),
-              t("#" + o + " .grid-product__buy-now", function (t) {
-                var e = t.getAttribute("data-product-id");
-                y(t, p("product", { id: e }));
-              }),
-              t("#" + o + " .footer__link--gift-card", function (t) {
-                var e = t.getAttribute("data-product-id");
-                y(t, p("product", { id: e }));
-              }),
-              t("#" + o + " .footer__link--all-products", function (t) {
-                y(t, p("search"));
-              }),
-              t("#" + o + " .footer__link--track-order", function (t) {
-                y(t, p("account/orders"));
-              }),
-              t("#" + o + " .footer__link--shopping-favorites", function (t) {
-                y(t, p("account/favorites"));
-              }),
-              t("#" + o + " .footer__link--shopping-cart", function (t) {
-                y(t, p("cart"));
-              }),
-              t("#" + o + " .footer__link--sigin-in", function (t) {
-                y(t, p("signin"));
-              }),
-              t("#" + o + " .footer__link--my-account", function (t) {
-                y(t, p("account/settings"));
-              }),
-              t("#" + o + " .pager__button", function (t) {
-                var e = t.getAttribute("data-page-number") || 2;
-                y(t, p("category", { id: s, page: e }));
-              }),
-              t("#" + o + " .pager__number", function (t) {
-                var e = t.getAttribute("data-page-number");
-                y(t, p("category", { id: s, page: e }));
-              }),
-              t("#" + o + " .open-external-url", function (t) {
-                y(t, function (t) {
-                  t.stopPropagation();
-                });
-              });
-          })();
-          var E = function () {
-            if (onAPILoaded()) S();
-            else
-              var t = setInterval(function () {
-                onAPILoaded() && (S(), clearInterval(t));
-              }, 100);
-          };
-          void 0 === t && E();
-        } else
-          console.warn(
-            "Static storefront is enabled, but no dynamicContainerID is provided or container is not present"
-          );
+  domContentLoadedHandler = function () {
+    if (!window.ec.storefront.staticPages.staticStorefrontEnabled) return;
+
+    o = ec.storefront.staticPages.staticContainerID;
+    i = ec.storefront.staticPages.dynamicContainerID;
+
+    if (!document.querySelector("#" + o))
+      return void console.warn(
+        "Static storefront is enabled, but no staticContainerID is provided or container is not present"
+      );
+    if (!document.querySelector("#" + i))
+      return void console.warn(
+        "Static storefront is enabled, but no dynamicContainerID is provided or container is not present"
+      );
+
+    window.location.hash.indexOf("#!/c/0") !== -1 && document.querySelector("#" + o).scrollIntoView(true);
+    "ontouchstart" in window && ((e = true), document.body.classList.add("touchable"));
+
+    if (!ec.storefront.staticPages.lazyLoading) return;
+    if (!ec.storefront.staticPages.lazyLoading.scriptJsLink)
+      return void console.warn("Storefront lazy loading is enabled, but no scriptJsLink is provided");
+    if (!ec.storefront.staticPages.lazyLoading.xProductBrowserArguments)
+      return void console.warn("Storefront lazy loading is enabled, but no xProductBrowser arguments are provided");
+
+    b(true);
+    var t = true;
+    function d() {
+      !t ? console.warn("Unable to fetch script.js outside of lazy loading mode") : (b(false), w(P));
+    }
+    var P = function () {
+      xProductBrowser.apply(this, ec.storefront.staticPages.lazyLoading.xProductBrowserArguments), E();
+    };
+    function b(t) {
+      var n = function (t, e, o) {
+        e ? t.addEventListener(o, d) : t.removeEventListener(o, d);
+      };
+      i = document.querySelector("#" + o);
+      e
+        ? ["touchstart", "touchend", "touchcancel", "touchmove"].forEach(function (e) {
+            n(i, t, e);
+          })
+        : ["mousedown", "mouseup", "mousemove", "contextmenu", "keydown", "keyup"].forEach(function (e) {
+            n(i, t, e);
+          });
+    }
+    var _ = ec.storefront.staticPages.mainCategoryId;
+    _ && (s = _);
+    var L = ec.storefront.staticPages.autoSwitchStaticToDynamicWhenReady;
+    if (
+      ((a = L || c),
+      ec.storefront.staticPages.initialCategoryOffset && (u = ec.storefront.staticPages.initialCategoryOffset),
+      m(),
+      (function () {
+        var t = document.querySelector("#" + o + " ." + n);
+        t && (t.style.opacity = 1);
+      })(),
+      (window.ec.config = window.ec.config || {}),
+      (window.ec.config.navigation_scrolling = "DISABLED"),
+      !g())
+    )
+      return m(), void h();
+    !(function () {
+      function t(t, e) {
+        for (var o = document.querySelectorAll(t), n = 0; n < o.length; n++) e(o[n]);
+      }
+      t("#" + o + " .ec-breadcrumbs a", function (t) {
+        var e = t.getAttribute("categoryId");
+        e !== s && y(t, p("category", { id: e }));
+      });
+      var e = document.querySelector("#" + o + " .grid__sort select");
+      e &&
+        e.addEventListener("change", function (t) {
+          p("category", { id: s, sort: e.value })(t);
+        }),
+        t("#" + o + " .grid__sort .grid-sort__item--filter", function (t) {
+          y(t, function () {
+            v(function () {
+              f() || (h(), Ecwid.showProductFilters());
+            }, 0);
+          });
+        }),
+        t("#" + o + " .grid-category__card a", function (t) {
+          var e = t.getAttribute("data-category-id");
+          y(t, p("category", { id: e }));
+        }),
+        t("#" + o + " .grid-product:not(.grid-product--view-all) a:not(.open-external-url)", function (t) {
+          var e = t.getAttribute("data-product-id");
+          y(t, p("product", { id: e }));
+        }),
+        t("#" + o + " .grid-product:not(.grid-product--view-all) .grid-product__wrap[data-product-id]", function (t) {
+          var e = t.getAttribute("data-product-id");
+          y(t, p("product", { id: e }));
+        }),
+        t("#" + o + " .grid-product--view-all a", function (t) {
+          var e = t.getAttribute("data-category-id");
+          y(t, p("category", { id: e }));
+        }),
+        t("#" + o + " .grid-product__buy-now", function (t) {
+          var e = t.getAttribute("data-product-id");
+          y(t, p("product", { id: e }));
+        }),
+        t("#" + o + " .footer__link--gift-card", function (t) {
+          var e = t.getAttribute("data-product-id");
+          y(t, p("product", { id: e }));
+        }),
+        t("#" + o + " .footer__link--all-products", function (t) {
+          y(t, p("search"));
+        }),
+        t("#" + o + " .footer__link--track-order", function (t) {
+          y(t, p("account/orders"));
+        }),
+        t("#" + o + " .footer__link--shopping-favorites", function (t) {
+          y(t, p("account/favorites"));
+        }),
+        t("#" + o + " .footer__link--shopping-cart", function (t) {
+          y(t, p("cart"));
+        }),
+        t("#" + o + " .footer__link--sigin-in", function (t) {
+          y(t, p("signin"));
+        }),
+        t("#" + o + " .footer__link--my-account", function (t) {
+          y(t, p("account/settings"));
+        }),
+        t("#" + o + " .pager__button", function (t) {
+          var e = t.getAttribute("data-page-number") || 2;
+          y(t, p("category", { id: s, page: e }));
+        }),
+        t("#" + o + " .pager__number", function (t) {
+          var e = t.getAttribute("data-page-number");
+          y(t, p("category", { id: s, page: e }));
+        }),
+        t("#" + o + " .open-external-url", function (t) {
+          y(t, function (t) {
+            t.stopPropagation();
+          });
+        });
+    })();
+    var E = function () {
+      if (onAPILoaded()) S();
       else
-        console.warn("Static storefront is enabled, but no staticContainerID is provided or container is not present");
+        var t = setInterval(function () {
+          onAPILoaded() && (S(), clearInterval(t));
+        }, 100);
+    };
+    !t && E();
     function S() {
       Ecwid.OnAPILoaded.add(function () {
         if (!f()) {
@@ -324,9 +319,7 @@
       return !!window.ecwidMessages && Object.keys(window.ecwidMessages).length > 0;
     }
   };
-  (document.attachEvent ? "complete" === document.readyState : "loading" !== document.readyState)
-    ? t()
-    : document.addEventListener("DOMContentLoaded", t);
+  document.addEventListener("DOMContentLoaded", domContentLoadedHandler);
   window.ec = window.ec || {};
   window.ec.storefront = window.ec.storefront || {};
   window.ec.storefront.staticPages = window.ec.storefront.staticPages || {};

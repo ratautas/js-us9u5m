@@ -68,7 +68,7 @@
   }
   function v(t, e) {
     e >= 40
-      ? console && console.warn("failed to add Ecwid.OnPageLoaded callback")
+      ? console.warn("failed to add Ecwid.OnPageLoaded callback")
       : "object" == typeof Ecwid && "object" == typeof Ecwid.OnPageLoaded
       ? Ecwid.OnPageLoaded.add(t)
       : setTimeout(function () {
@@ -115,7 +115,7 @@
     if (Array.isArray(t))
       for (var o in t) {
         var n = t[o].classList;
-        void 0 !== n && e(n);
+        !!n && e(n);
       }
   }
   window.ec = window.ec || {};
@@ -133,23 +133,18 @@
           if (
             (-1 !== window.location.hash.indexOf("#!/c/0") && document.querySelector("#" + o).scrollIntoView(true),
             "ontouchstart" in window && ((e = true), document.body.classList.add("touchable")),
-            void 0 !== ec.storefront.staticPages.lazyLoading)
+            !!ec.storefront.staticPages.lazyLoading)
           ) {
             if (void 0 === ec.storefront.staticPages.lazyLoading.scriptJsLink)
-              return void (
-                console && console.warn("Storefront lazy loading is enabled, but no scriptJsLink is provided")
-              );
+              return void console.warn("Storefront lazy loading is enabled, but no scriptJsLink is provided");
             if (void 0 === ec.storefront.staticPages.lazyLoading.xProductBrowserArguments)
               return void (
-                console &&
                 console.warn("Storefront lazy loading is enabled, but no xProductBrowser arguments are provided")
               );
             b(true);
             var t = true;
             function d() {
-              void 0 === t
-                ? console && console.warn("Unable to fetch script.js outside of lazy loading mode")
-                : (b(false), w(P));
+              void 0 === t ? console.warn("Unable to fetch script.js outside of lazy loading mode") : (b(false), w(P));
             }
             var P = function () {
               xProductBrowser.apply(this, ec.storefront.staticPages.lazyLoading.xProductBrowserArguments), E();
@@ -272,15 +267,11 @@
           };
           void 0 === t && E();
         } else
-          console &&
-            console.warn(
-              "Static storefront is enabled, but no dynamicContainerID is provided or container is not present"
-            );
-      else
-        console &&
           console.warn(
-            "Static storefront is enabled, but no staticContainerID is provided or container is not present"
+            "Static storefront is enabled, but no dynamicContainerID is provided or container is not present"
           );
+      else
+        console.warn("Static storefront is enabled, but no staticContainerID is provided or container is not present");
     function S() {
       Ecwid.OnAPILoaded.add(function () {
         if (!f()) {
@@ -340,19 +331,17 @@
   window.ec.storefront = window.ec.storefront || {};
   window.ec.storefront.staticPages = window.ec.storefront.staticPages || {};
   window.ec.storefront.staticPages.forceDynamicLoadingIfRequired = function () {
-    if (void 0 !== ec.storefront.staticPages.lazyLoading)
-      if (void 0 !== ec.storefront.staticPages.lazyLoading.scriptJsLink)
-        if (void 0 !== ec.storefront.staticPages.lazyLoading.xProductBrowserArguments) {
-          var t = document.getElementById(ec.storefront.staticPages.staticContainerID);
-          if (g()) (t.style.height = ""), (t.style.maxHeight = ""), (t.style.minHeight = ""), (t.style.overflowY = "");
-          else {
-            for (; t.lastChild; ) t.lastChild.remove();
-            w(function () {
-              xProductBrowser.apply(this, ec.storefront.staticPages.lazyLoading.xProductBrowserArguments);
-            });
-          }
-        } else console && console.warn("No xProductBrowser arguments are provided to switch in dynamic mode");
-      else console && console.warn("No scriptJsLink is provided to switch in dynamic mode");
-    else console && console.warn("Storefront lazy loading is not enabled to switch in dynamic mode");
+    if (!ec.storefront.staticPages.lazyLoading) return;
+    if (!ec.storefront.staticPages.lazyLoading.scriptJsLink) return;
+    if (!ec.storefront.staticPages.lazyLoading.xProductBrowserArguments) return;
+
+    var t = document.getElementById(ec.storefront.staticPages.staticContainerID);
+    if (g()) (t.style.height = ""), (t.style.maxHeight = ""), (t.style.minHeight = ""), (t.style.overflowY = "");
+    else {
+      for (; t.lastChild; ) t.lastChild.remove();
+      w(function () {
+        xProductBrowser.apply(this, ec.storefront.staticPages.lazyLoading.xProductBrowserArguments);
+      });
+    }
   };
 })();

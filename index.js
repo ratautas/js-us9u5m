@@ -11,21 +11,25 @@
       "display: block !important; height: 0 !important; max-height: 0 !important; min-height: 0 !important; overflow-y: auto !important;",
     s = 0,
     u = 0;
+
   function f() {
     var t,
       e = document.querySelector("#" + o);
     return !(e && ((t = e), t.offsetWidth || t.offsetHeight || t.getClientRects().length));
   }
+
   function g() {
     var t = window.location.hash;
     return "" === t || (-1 === t.indexOf("#!/c/0/") && -1 === t.indexOf("#!//c/0/"));
   }
+
   function w(t) {
     var e = document.createElement("script");
     e.src = ec.storefront.staticPages.lazyLoading.scriptJsLink;
     e.onload = t;
     document.querySelector("#" + ec.storefront.staticPages.dynamicContainerID).appendChild(e);
   }
+
   function y(t, o) {
     var n = 0,
       i = 0,
@@ -46,6 +50,7 @@
         c ? (c = false) : o(t);
       });
   }
+
   function p(t, e) {
     return function (n) {
       (function (t, e) {
@@ -147,24 +152,33 @@
       return void console.warn("Storefront lazy loading is enabled, but no xProductBrowser arguments are provided");
 
     b(true);
+
     var t = true;
-    function d() {
-      !t ? console.warn("Unable to fetch script.js outside of lazy loading mode") : (b(false), w(P));
+
+    function eventHandler() {
+      if (!t) return void console.warn("Unable to fetch script.js outside of lazy loading mode");
+      
+      b(false);
+      w(P);
     }
+
     var P = function () {
       xProductBrowser.apply(this, ec.storefront.staticPages.lazyLoading.xProductBrowserArguments), E();
     };
+
     function b(t) {
-      var n = function (t, e, o) {
-        e ? t.addEventListener(o, d) : t.removeEventListener(o, d);
+      var toggleEventListener = function ($element, e, eventName) {
+        e ? $element.addEventListener(eventName, eventHandler) : $element.removeEventListener(eventName, eventHandler);
       };
+
       i = document.querySelector("#" + o);
+
       e
-        ? ["touchstart", "touchend", "touchcancel", "touchmove"].forEach(function (e) {
-            n(i, t, e);
+        ? ["touchstart", "touchend", "touchcancel", "touchmove"].forEach(function (eventName) {
+            toggleEventListener(i, t, eventName);
           })
-        : ["mousedown", "mouseup", "mousemove", "contextmenu", "keydown", "keyup"].forEach(function (e) {
-            n(i, t, e);
+        : ["mousedown", "mouseup", "mousemove", "contextmenu", "keydown", "keyup"].forEach(function (eventName) {
+            toggleEventListener(i, t, eventName);
           });
     }
     var _ = ec.storefront.staticPages.mainCategoryId;

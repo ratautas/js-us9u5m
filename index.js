@@ -1,7 +1,7 @@
 !(function () {
   var domContentLoadedHandler,
     e = false,
-    o = null,
+    staticContainerID = null,
     n = "static-content",
     i = null,
     r = false,
@@ -14,7 +14,7 @@
 
   function f() {
     var t,
-      e = document.querySelector("#" + o);
+      e = document.querySelector("#" + staticContainerID);
     return !(e && ((t = e), t.offsetWidth || t.offsetHeight || t.getClientRects().length));
   }
 
@@ -61,7 +61,7 @@
           if (!f()) {
             var n = window.ec.storefront.staticPages.onClickCallback;
             !a && n && n(), (r = true);
-            var i = document.querySelector("#" + o + " .ec-wrapper");
+            var i = document.querySelector("#" + staticContainerID + " .ec-wrapper");
             i &&
               P([i], function (t) {
                 t.add("ec-wrapper--transition");
@@ -102,13 +102,13 @@
       t.style.overflowY = "";
       t.style.display = "block";
       (function () {
-        var t = document.querySelector("#" + o);
+        var t = document.querySelector("#" + staticContainerID);
         t && ((t.style.opacity = 0), (t.style.display = "none"));
       })();
-      var e = document.querySelector("#" + o);
+      var e = document.querySelector("#" + staticContainerID);
       e && e.parentNode && e.parentNode.removeChild(e);
       var n = window.ec.storefront.staticPages.switchToDynamicCallback,
-        r = document.querySelector("#" + o + " .ec-wrapper");
+        r = document.querySelector("#" + staticContainerID + " .ec-wrapper");
       r &&
         P([r], function (t) {
           t.remove("ec-wrapper--transition");
@@ -130,10 +130,10 @@
   domContentLoadedHandler = function () {
     if (!window.ec.storefront.staticPages.staticStorefrontEnabled) return;
 
-    o = ec.storefront.staticPages.staticContainerID;
+    staticContainerID = ec.storefront.staticPages.staticContainerID;
     i = ec.storefront.staticPages.dynamicContainerID;
 
-    if (!document.querySelector("#" + o))
+    if (!document.querySelector("#" + staticContainerID))
       return void console.warn(
         "Static storefront is enabled, but no staticContainerID is provided or container is not present"
       );
@@ -142,7 +142,7 @@
         "Static storefront is enabled, but no dynamicContainerID is provided or container is not present"
       );
 
-    window.location.hash.indexOf("#!/c/0") !== -1 && document.querySelector("#" + o).scrollIntoView(true);
+    window.location.hash.indexOf("#!/c/0") !== -1 && document.querySelector("#" + staticContainerID).scrollIntoView(true);
     "ontouchstart" in window && ((e = true), document.body.classList.add("touchable"));
 
     if (!ec.storefront.staticPages.lazyLoading) return;
@@ -171,7 +171,7 @@
         e ? $element.addEventListener(eventName, eventHandler) : $element.removeEventListener(eventName, eventHandler);
       };
 
-      i = document.querySelector("#" + o);
+      i = document.querySelector("#" + staticContainerID);
 
       e
         ? ["touchstart", "touchend", "touchcancel", "touchmove"].forEach(function (eventName) {
@@ -189,7 +189,7 @@
       ec.storefront.staticPages.initialCategoryOffset && (u = ec.storefront.staticPages.initialCategoryOffset),
       m(),
       (function () {
-        var t = document.querySelector("#" + o + " ." + n);
+        var t = document.querySelector("#" + staticContainerID + " ." + n);
         t && (t.style.opacity = 1);
       })(),
       (window.ec.config = window.ec.config || {}),
@@ -201,73 +201,73 @@
       function t(t, e) {
         for (var o = document.querySelectorAll(t), n = 0; n < o.length; n++) e(o[n]);
       }
-      t("#" + o + " .ec-breadcrumbs a", function (t) {
+      t("#" + staticContainerID + " .ec-breadcrumbs a", function (t) {
         var e = t.getAttribute("categoryId");
         e !== s && y(t, p("category", { id: e }));
       });
-      var e = document.querySelector("#" + o + " .grid__sort select");
+      var e = document.querySelector("#" + staticContainerID + " .grid__sort select");
       e &&
         e.addEventListener("change", function (t) {
           p("category", { id: s, sort: e.value })(t);
         }),
-        t("#" + o + " .grid__sort .grid-sort__item--filter", function (t) {
+        t("#" + staticContainerID + " .grid__sort .grid-sort__item--filter", function (t) {
           y(t, function () {
             v(function () {
               f() || (h(), Ecwid.showProductFilters());
             }, 0);
           });
         }),
-        t("#" + o + " .grid-category__card a", function (t) {
+        t("#" + staticContainerID + " .grid-category__card a", function (t) {
           var e = t.getAttribute("data-category-id");
           y(t, p("category", { id: e }));
         }),
-        t("#" + o + " .grid-product:not(.grid-product--view-all) a:not(.open-external-url)", function (t) {
+        t("#" + staticContainerID + " .grid-product:not(.grid-product--view-all) a:not(.open-external-url)", function (t) {
           var e = t.getAttribute("data-product-id");
           y(t, p("product", { id: e }));
         }),
-        t("#" + o + " .grid-product:not(.grid-product--view-all) .grid-product__wrap[data-product-id]", function (t) {
+        t("#" + staticContainerID + " .grid-product:not(.grid-product--view-all) .grid-product__wrap[data-product-id]", function (t) {
           var e = t.getAttribute("data-product-id");
           y(t, p("product", { id: e }));
         }),
-        t("#" + o + " .grid-product--view-all a", function (t) {
+        t("#" + staticContainerID + " .grid-product--view-all a", function (t) {
           var e = t.getAttribute("data-category-id");
           y(t, p("category", { id: e }));
         }),
-        t("#" + o + " .grid-product__buy-now", function (t) {
+        t("#" + staticContainerID + " .grid-product__buy-now", function (t) {
           var e = t.getAttribute("data-product-id");
           y(t, p("product", { id: e }));
         }),
-        t("#" + o + " .footer__link--gift-card", function (t) {
+        t("#" + staticContainerID + " .footer__link--gift-card", function (t) {
           var e = t.getAttribute("data-product-id");
           y(t, p("product", { id: e }));
         }),
-        t("#" + o + " .footer__link--all-products", function (t) {
+        t("#" + staticContainerID + " .footer__link--all-products", function (t) {
           y(t, p("search"));
         }),
-        t("#" + o + " .footer__link--track-order", function (t) {
+        t("#" + staticContainerID + " .footer__link--track-order", function (t) {
           y(t, p("account/orders"));
         }),
-        t("#" + o + " .footer__link--shopping-favorites", function (t) {
+        t("#" + staticContainerID + " .footer__link--shopping-favorites", function (t) {
           y(t, p("account/favorites"));
         }),
-        t("#" + o + " .footer__link--shopping-cart", function (t) {
+        t("#" + staticContainerID + " .footer__link--shopping-cart", function (t) {
           y(t, p("cart"));
         }),
-        t("#" + o + " .footer__link--sigin-in", function (t) {
+        t("#" + staticContainerID + " .footer__link--sigin-in", function (t) {
           y(t, p("signin"));
         }),
-        t("#" + o + " .footer__link--my-account", function (t) {
+        t("#" + staticContainerID + " .footer__link--my-account", function (t) {
           y(t, p("account/settings"));
         }),
-        t("#" + o + " .pager__button", function (t) {
+        t("#" + staticContainerID + " .pager__button", function (t) {
           var e = t.getAttribute("data-page-number") || 2;
           y(t, p("category", { id: s, page: e }));
         }),
-        t("#" + o + " .pager__number", function (t) {
+        t("#" + staticContainerID + " .pager__number", function (t) {
           var e = t.getAttribute("data-page-number");
           y(t, p("category", { id: s, page: e }));
         }),
-        t("#" + o + " .open-external-url", function (t) {
+        t("#" + staticContainerID + " .open-external-url", function (t) {
           y(t, function (t) {
             t.stopPropagation();
           });

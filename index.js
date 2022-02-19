@@ -1,22 +1,19 @@
 !(function () {
   var t,
-    e = !1,
+    e = false,
     o = null,
     n = "static-content",
     i = null,
-    r = !1,
-    a = !1,
-    c = !1,
+    r = false,
+    a = false,
+    c = false,
     d =
       "display: block !important; height: 0 !important; max-height: 0 !important; min-height: 0 !important; overflow-y: auto !important;",
     s = 0,
     u = 0;
-  function l(t) {
-    return document.querySelector(t);
-  }
   function f() {
     var t,
-      e = l("#" + o);
+      e = document.querySelector("#" + o);
     return !(e && ((t = e), t.offsetWidth || t.offsetHeight || t.getClientRects().length));
   }
   function g() {
@@ -25,23 +22,19 @@
   }
   function w(t) {
     var e = document.createElement("script");
-    (e.src = ec.storefront.staticPages.lazyLoading.scriptJsLink),
-      e.readyState
-        ? (e.onreadystatechange = function () {
-            ("loaded" !== e.readyState && "complete" !== e.readyState) || t();
-          })
-        : (e.onload = t),
-      l("#" + ec.storefront.staticPages.dynamicContainerID).appendChild(e);
+    e.src = ec.storefront.staticPages.lazyLoading.scriptJsLink;
+    e.onload = t;
+    document.querySelector("#" + ec.storefront.staticPages.dynamicContainerID).appendChild(e);
   }
   function y(t, o) {
     var n = 0,
       i = 0,
       r = 0,
       a = 0,
-      c = !1;
+      c = false;
     e &&
       (t.addEventListener("touchstart", function (t) {
-        (c = !0), (n = t.touches[0].clientX), (i = t.touches[0].clientY), (r = 0), (a = 0);
+        (c = true), (n = t.touches[0].clientX), (i = t.touches[0].clientY), (r = 0), (a = 0);
       }),
       t.addEventListener("touchmove", function (t) {
         (r = t.changedTouches[0].clientX - n), (a = t.changedTouches[0].clientY - i);
@@ -50,7 +43,7 @@
         c && Math.abs(r) < 10 && Math.abs(a) < 10 && o(t);
       })),
       t.addEventListener("click", function (t) {
-        c ? (c = !1) : o(t);
+        c ? (c = false) : o(t);
       });
   }
   function p(t, e) {
@@ -62,8 +55,8 @@
         v(function () {
           if (!f()) {
             var n = window.ec.storefront.staticPages.onClickCallback;
-            !a && n && n(), (r = !0);
-            var i = l("#" + o + " .ec-wrapper");
+            !a && n && n(), (r = true);
+            var i = document.querySelector("#" + o + " .ec-wrapper");
             i &&
               P([i], function (t) {
                 t.add("ec-wrapper--transition");
@@ -83,7 +76,7 @@
         }, 50);
   }
   function m() {
-    var t = l("#" + i),
+    var t = document.querySelector("#" + i),
       e = t.getAttribute("style") || "";
     t.setAttribute("style", e + d);
   }
@@ -92,24 +85,24 @@
       var t;
       !(function () {
         if (!a) return;
-        var t = document.querySelectorAll(".ec-wrapper--animated-transitions");
+        var t = document.querySelectorAldocument.querySelector(".ec-wrapper--animated-transitions");
         P(Array.prototype.slice.call(t), function (t) {
           t.remove("ec-wrapper--animated-transitions");
         });
       })(),
-        ((t = l("#" + i)).style.height = ""),
+        ((t = document.querySelector("#" + i)).style.height = ""),
         (t.style.maxHeight = ""),
         (t.style.minHeight = ""),
         (t.style.overflowY = ""),
         (t.style.display = "block"),
         (function () {
-          var t = l("#" + o);
+          var t = document.querySelector("#" + o);
           t && ((t.style.opacity = 0), (t.style.display = "none"));
         })();
-      var e = l("#" + o);
+      var e = document.querySelector("#" + o);
       e && e.parentNode && e.parentNode.removeChild(e);
       var n = window.ec.storefront.staticPages.switchToDynamicCallback,
-        r = l("#" + o + " .ec-wrapper");
+        r = document.querySelector("#" + o + " .ec-wrapper");
       r &&
         P([r], function (t) {
           t.remove("ec-wrapper--transition");
@@ -129,16 +122,16 @@
     (window.ec.storefront.staticPages = window.ec.storefront.staticPages || {}),
     (window.ec.storefront.staticPages.switchStaticToDynamic = h),
     (t = function () {
-      if (!0 === (window.ec.storefront.staticPages.staticStorefrontEnabled || !1))
+      if (true === (window.ec.storefront.staticPages.staticStorefrontEnabled || false))
         if (
           ((o = ec.storefront.staticPages.staticContainerID),
           (i = ec.storefront.staticPages.dynamicContainerID),
-          o && document.querySelector("#" + o))
+          document.querySelector("#" + o))
         )
-          if (i && document.querySelector("#" + i)) {
+          if (document.querySelector("#" + i)) {
             if (
-              (-1 !== window.location.hash.indexOf("#!/c/0") && document.querySelector("#" + o).scrollIntoView(!0),
-              "ontouchstart" in window && ((e = !0), document.body.classList.add("touchable")),
+              (-1 !== window.location.hash.indexOf("#!/c/0") && document.querySelector("#" + o).scrollIntoView(true),
+              "ontouchstart" in window && ((e = true), document.body.classList.add("touchable")),
               void 0 !== ec.storefront.staticPages.lazyLoading)
             ) {
               if (void 0 === ec.storefront.staticPages.lazyLoading.scriptJsLink)
@@ -150,12 +143,12 @@
                   console &&
                   console.warn("Storefront lazy loading is enabled, but no xProductBrowser arguments are provided")
                 );
-              b(!0);
-              var t = !0;
+              b(true);
+              var t = true;
               function d() {
                 void 0 === t
                   ? console && console.warn("Unable to fetch script.js outside of lazy loading mode")
-                  : (b(!1), w(P));
+                  : (b(false), w(P));
               }
               var P = function () {
                 xProductBrowser.apply(this, ec.storefront.staticPages.lazyLoading.xProductBrowserArguments), E();
@@ -164,7 +157,7 @@
                 var n = function (t, e, o) {
                     e ? t.addEventListener(o, d) : t.removeEventListener(o, d);
                   },
-                  i = l("#" + o);
+                  i = document.querySelector("#" + o);
                 e
                   ? ["touchstart", "touchend", "touchcancel", "touchmove"].forEach(function (e) {
                       n(i, t, e);
@@ -182,7 +175,7 @@
               ec.storefront.staticPages.initialCategoryOffset && (u = ec.storefront.staticPages.initialCategoryOffset),
               m(),
               (function () {
-                var t = l("#" + o + " ." + n);
+                var t = document.querySelector("#" + o + " ." + n);
                 t && (t.style.opacity = 1);
               })(),
               (window.ec.config = window.ec.config || {}),
@@ -291,7 +284,7 @@
         Ecwid.OnAPILoaded.add(function () {
           if (!f()) {
             var t = window.ecwid_initial_data.data.storeClosed,
-              e = document.querySelectorAll(".ecwid-maintenance-wrapper"),
+              e = document.querySelectorAldocument.querySelector(".ecwid-maintenance-wrapper"),
               o = !t && e.length > 0;
             (t || o || k()) && h();
           }
@@ -313,14 +306,14 @@
                     if (e <= 0) h();
                     else {
                       var o = (function () {
-                        if (!i) return !0;
+                        if (!i) return true;
                         try {
                           var t = document.querySelector("#" + i + " .grid-category--loading");
-                          if (null != t) return !1;
+                          if (null != t) return false;
                           var e = document.querySelector("#" + i + " .grid-product--loading");
-                          if (null != e) return !1;
+                          if (null != e) return false;
                         } catch (t) {}
-                        return !0;
+                        return true;
                       })();
                       o
                         ? h()
